@@ -1,0 +1,37 @@
+import request from "./index";
+// 用户注册
+export function userRegister({ username, password, school, email, code }) {
+  return request({
+    method: "post",
+    url: "/user/register",
+    data: {
+      username,
+      password,
+      school,
+      email,
+      code,
+    },
+  });
+}
+
+// 用户发送邮箱
+export function sendMail({ email }) {
+  return request({
+    method: "post",
+    url: "/user/email",
+    data: {
+      email,
+    },
+  });
+}
+
+export function userLogin({ username, password }) {
+  return request({
+    method: "post",
+    url: "/user/login",
+    data: {
+      username,
+      password,
+    },
+  });
+}
