@@ -35,3 +35,7 @@ export function userLogin({ username, password }) {
     },
   });
 }
+
+export function getUserInfo() {
+  return request(`/user/getUserInfo`);
+}

@@ -49,28 +49,31 @@ export default withRouter(
     return (
       <>
         {renderRoutes(router)}
-        <TabBar
-          style={{
-            position: "fixed",
-            left: 0,
-            bottom: 0,
-            right: 0,
-            backgroundColor: "white",
-          }}
-          onChange={(key) => {
-            history.push(key);
-          }}
-        >
-          {tabs.map((item) => (
-            <TabBar.Item
-              key={item.key}
-              icon={item.icon}
-              title={item.title}
-              badge={item.badge}
-            />
-          ))}
-          ƒ
-        </TabBar>
+        {history.location.pathname !== "/" &&
+          history.location.pathname !== "/login" && (
+            <TabBar
+              style={{
+                position: "fixed",
+                left: 0,
+                bottom: 0,
+                right: 0,
+                backgroundColor: "white",
+              }}
+              onChange={(key) => {
+                history.push(key);
+              }}
+            >
+              {tabs.map((item) => (
+                <TabBar.Item
+                  key={item.key}
+                  icon={item.icon}
+                  title={item.title}
+                  badge={item.badge}
+                />
+              ))}
+              ƒ
+            </TabBar>
+          )}
       </>
     );
   })

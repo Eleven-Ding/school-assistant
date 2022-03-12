@@ -1,13 +1,16 @@
 import { combineReducers } from "redux-immutable";
-import { SHOW_MASK } from "./constant";
+import { SHOW_MASK, USER_INFO } from "./constant";
 const homeDefaultState = {
   showMask: false,
+  userInfo: {},
 };
 
 function reducer(state = homeDefaultState, action) {
   switch (action.type) {
     case SHOW_MASK:
       return { ...state, showMask: action.payload };
+    case USER_INFO:
+      return { ...state, userInfo: action.payload };
     default:
       return state;
   }
