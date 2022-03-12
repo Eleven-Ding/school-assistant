@@ -14,11 +14,12 @@ export default memo(function ProfilePage() {
   );
   const dispatch = useDispatch();
   useEffect(() => {
-    getUserInfo().then((res) => {
-      console.log(res);
-      dispatch(changeUserInfo(res.data.userInfo));
-    });
-  }, [dispatch]);
+    if (!userInfo.username)
+      getUserInfo().then((res) => {
+        console.log(res);
+        dispatch(changeUserInfo(res.data.userInfo));
+      });
+  }, [dispatch, userInfo.username]);
   return (
     <ProfileWrapper>
       <NavBar

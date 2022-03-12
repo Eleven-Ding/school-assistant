@@ -9,6 +9,7 @@ import {
   MessageFill,
   UnorderedListOutline,
   UserOutline,
+  AddOutline,
 } from "antd-mobile-icons";
 export default withRouter(
   memo(function MainPage({ history }) {
@@ -25,6 +26,12 @@ export default withRouter(
         icon: <UnorderedListOutline />,
         badge: "5",
       },
+      {
+        key: "/add",
+        title: "发帖",
+        icon: <AddOutline />,
+      },
+
       {
         key: "/message",
         title: "我的消息",
