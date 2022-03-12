@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import { basicColumns } from "@/constant";
 import { sendMail, userRegister, userLogin } from "@/network/model";
 export default memo(
-  withRouter(function LoginPage() {
+  withRouter(function LoginPage({ history }) {
     const [isLogin, setIslogin] = useState("login");
     const [visible, setVisible] = useState(false);
     const [value, setValue] = useState(["1"]);
@@ -24,6 +24,7 @@ export default memo(
         showmsg = message;
         if (status === 200) {
           localStorage.setItem("token", token);
+          history.push("/home");
         }
       } else {
         const { status, message } = await userRegister({
