@@ -39,3 +39,16 @@ export function userLogin({ username, password }) {
 export function getUserInfo() {
   return request(`/user/getUserInfo`);
 }
+
+export function addArtticle({ content, urls, tag, position }) {
+  return request({
+    method: "post",
+    url: "/article/add_article",
+    data: {
+      content,
+      urls,
+      tag,
+      position,
+    },
+  });
+}
