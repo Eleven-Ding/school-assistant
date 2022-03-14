@@ -3,3 +3,8 @@ export function sum(arr) {
     return acr + cur;
   });
 }
+
+export function isImgage(url) {
+  const reg = /\.(png|jpe?g|gif|svg)(\?.*)?$/;
+  return reg.test(url);
+}

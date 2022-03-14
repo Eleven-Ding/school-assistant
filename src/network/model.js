@@ -52,3 +52,7 @@ export function addArtticle({ content, urls, tag, position }) {
     },
   });
 }
+
+export function getArticles({ page, limit }) {
+  return request(`/article/get_articles?page=${page}&limit=${limit}`);
+}

@@ -1,4 +1,4 @@
-import { SHOW_MASK, USER_INFO } from "./constant";
+import { CHANGE_ARTICLE_LIST, SHOW_MASK, USER_INFO } from "./constant";
 
 export function changeMaskType(bool) {
   return {
@@ -11,5 +11,12 @@ export function changeUserInfo(userInfo) {
   return {
     type: USER_INFO,
     payload: userInfo,
+  };
+}
+
+export function changeArticlesList(list) {
+  return {
+    type: CHANGE_ARTICLE_LIST,
+    payload: list,
   };
 }
