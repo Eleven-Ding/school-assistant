@@ -1,9 +1,15 @@
 import { combineReducers } from "redux-immutable";
-import { CHANGE_ARTICLE_LIST, SHOW_MASK, USER_INFO } from "./constant";
+import {
+  CHANGE_ARTICLE_LIST,
+  SET_PAGE,
+  SHOW_MASK,
+  USER_INFO,
+} from "./constant";
 const homeDefaultState = {
   showMask: false,
   userInfo: {},
   articleList: [],
+  page: 1,
 };
 
 function reducer(state = homeDefaultState, action) {
@@ -17,6 +23,8 @@ function reducer(state = homeDefaultState, action) {
         ...state,
         articleList: [...state.articleList, ...action.payload],
       };
+    case SET_PAGE:
+      return { ...state, page: action.payload };
     default:
       return state;
   }

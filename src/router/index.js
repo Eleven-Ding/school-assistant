@@ -6,6 +6,7 @@ const Profile = React.lazy((_) => import("@/pages/profile/index.js"));
 const TodoPage = React.lazy((_) => import("@/pages/todoList/index.js"));
 const Message = React.lazy((_) => import("@/pages/message/index.js"));
 const Add = React.lazy((_) => import("@/pages/add/index.js"));
+const Detail = React.lazy((_) => import("@/pages/detail/index.js"));
 export default [
   {
     path: "/",
@@ -35,5 +36,9 @@ export default [
   {
     path: "/add",
     component: Add,
+  },
+  {
+    path: "/detail",
+    component: Detail,
   },
 ];

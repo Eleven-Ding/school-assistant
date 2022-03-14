@@ -1,4 +1,9 @@
-import { CHANGE_ARTICLE_LIST, SHOW_MASK, USER_INFO } from "./constant";
+import {
+  CHANGE_ARTICLE_LIST,
+  SET_PAGE,
+  SHOW_MASK,
+  USER_INFO,
+} from "./constant";
 
 export function changeMaskType(bool) {
   return {
@@ -18,5 +23,12 @@ export function changeArticlesList(list) {
   return {
     type: CHANGE_ARTICLE_LIST,
     payload: list,
+  };
+}
+
+export function changePage(page) {
+  return {
+    type: SET_PAGE,
+    payload: page,
   };
 }

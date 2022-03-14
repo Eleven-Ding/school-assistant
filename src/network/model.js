@@ -56,3 +56,13 @@ export function addArtticle({ content, urls, tag, position }) {
 export function getArticles({ page, limit }) {
   return request(`/article/get_articles?page=${page}&limit=${limit}`);
 }
+
+export function addViews({ article_id }) {
+  return request({
+    method: "post",
+    url: "/article/change_view",
+    data: {
+      article_id,
+    },
+  });
+}
