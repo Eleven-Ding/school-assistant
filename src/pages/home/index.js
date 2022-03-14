@@ -4,26 +4,38 @@ import { getArticles } from "@/network/model";
 import { isImgage } from "@/utils/common";
 import { EnvironmentOutline, EyeOutline, FireFill } from "antd-mobile-icons";
 import { HomeWrapper } from "./style";
-import { changeArticlesList } from "@/store/creators";
+import {
+  changeArticlesList,
+  changeGetData,
+  changePage,
+} from "@/store/creators";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { withRouter } from "react-router-dom";
-const limit = 7;
+const limit = 6;
 export default memo(
   withRouter(function HomePage({ history }) {
     const colors = ["#ace0ff", "#bcffbd", "#e4fabd", "#ffcfac"];
-    const [page, setPage] = useState(1);
     const [columes, setColumes] = useState([[], []]);
+    // const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
-    const { articleList } = useSelector(
+    const { articleList, page, scrollTop, shouldHomeGetData } = useSelector(
       (state) => ({
         articleList: state.getIn(["main", "articleList"]),
+        shouldHomeGetData: state.getIn(["main", "shouldHomeGetData"]),
+        page: state.getIn(["main", "page"]),
+        scrollTop: state.getIn(["main", "scrollTop"]),
       }),
       shallowEqual
     );
     useEffect(() => {
+      dispatch(changeGetData(true));
       getArticles({ page, limit }).then((res) => {
-        dispatch(changeArticlesList(res.data.articles));
-        if (res.data.articles.length >= limit) {
+        dispatch(changeArticlesList(res?.data?.articles || []));
+
+        if (res?.data?.articles?.length < limit) {
+          dispatch(changeGetData(true));
+        } else {
+          dispatch(changeGetData(false));
         }
       });
     }, [dispatch, page]);
@@ -43,25 +55,18 @@ export default memo(
     ));
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const loadMore = () => {
-      setPage((page) => {
-        return page + 1;
-      });
+      dispatch(changePage(page + 1));
     };
 
-    const onScroll = useCallback(() => {
+    useEffect(() => {
       let clientHeight = document.documentElement.clientHeight; //浏览器高度
       let scrollHeight = document.body.scrollHeight;
       let scrollTop = document.documentElement.scrollTop;
-      let distance = 50; //距离视窗还用50的时候，开始触发；
-      if (scrollTop + clientHeight >= scrollHeight - distance) {
+      if (scrollTop + clientHeight >= scrollHeight && !shouldHomeGetData) {
+        dispatch(changeGetData(true));
         loadMore();
       }
-    }, []);
-    useEffect(() => {
-      window.removeEventListener("scroll", onScroll);
-      window.addEventListener("scroll", onScroll);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [dispatch, loadMore, scrollTop, shouldHomeGetData]);
 
     return (
       <HomeWrapper>

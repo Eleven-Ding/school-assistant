@@ -41,7 +41,6 @@ export default memo(
     const send = useCallback(async () => {
       const email = formRef.current?.getFieldValue("email");
       const result = await sendMail({ email });
-      console.log(result);
     }, [formRef]);
     return (
       <LoginWrapper>
@@ -107,9 +106,7 @@ export default memo(
                     onConfirm={(v) => {
                       setValue(v);
                     }}
-                    onSelect={(val, extend) => {
-                      console.log("onSelect", val, extend.items);
-                    }}
+                    onSelect={(val, extend) => {}}
                   >
                     {(items) => {
                       if (items.every((item) => item === null)) {

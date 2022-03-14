@@ -11,48 +11,56 @@ import {
   UserOutline,
   AddOutline,
 } from "antd-mobile-icons";
+import { changeScrollTop } from "../store/creators";
+import { useDispatch } from "react-redux";
+const tabs = [
+  {
+    key: "/home",
+    title: "首页",
+    icon: <AppOutline />,
+    badge: Badge.dot,
+  },
+  {
+    key: "/todo",
+    title: "我的待办",
+    icon: <UnorderedListOutline />,
+    badge: "5",
+  },
+  {
+    key: "/add",
+    title: "发帖",
+    icon: <AddOutline />,
+  },
+
+  {
+    key: "/message",
+    title: "我的消息",
+    icon: (active) => (active ? <MessageFill /> : <MessageOutline />),
+    badge: "99+",
+  },
+  {
+    key: "/profile",
+    title: "个人中心",
+    icon: <UserOutline />,
+  },
+];
+
 export default withRouter(
-  memo(function MainPage({ history }) {
-    const tabs = [
-      {
-        key: "/home",
-        title: "首页",
-        icon: <AppOutline />,
-        badge: Badge.dot,
-      },
-      {
-        key: "/todo",
-        title: "我的待办",
-        icon: <UnorderedListOutline />,
-        badge: "5",
-      },
-      {
-        key: "/add",
-        title: "发帖",
-        icon: <AddOutline />,
-      },
-
-      {
-        key: "/message",
-        title: "我的消息",
-        icon: (active) => (active ? <MessageFill /> : <MessageOutline />),
-        badge: "99+",
-      },
-      {
-        key: "/profile",
-        title: "个人中心",
-        icon: <UserOutline />,
-      },
-    ];
-
+  memo(function MainPage({ history, location }) {
     useEffect(() => {
       const token = localStorage.getItem("token");
-      if (token) {
-        history.push("/home");
-      } else {
+      console.log(location);
+      if (!token && location.pathname !== "/login") {
         history.push("/login");
       }
-    }, [history]);
+    }, [history, location]);
+    const dispatch = useDispatch();
+    useEffect(() => {
+      window.addEventListener("scroll", () => {
+        let scrollTop = document.documentElement.scrollTop;
+        dispatch(changeScrollTop(scrollTop));
+      });
+    }, [dispatch]);
     return (
       <>
         {renderRoutes(router)}
@@ -66,7 +74,8 @@ export default withRouter(
           }}
         >
           {history.location.pathname !== "/" &&
-            history.location.pathname !== "/login" && (
+            history.location.pathname !== "/login" &&
+            history.location.pathname !== "/detail" && (
               <TabBar
                 onChange={(key) => {
                   history.push(key);

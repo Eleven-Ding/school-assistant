@@ -16,7 +16,6 @@ export default memo(function ProfilePage() {
   useEffect(() => {
     if (!userInfo.username)
       getUserInfo().then((res) => {
-        console.log(res);
         dispatch(changeUserInfo(res.data.userInfo));
       });
   }, [dispatch, userInfo.username]);

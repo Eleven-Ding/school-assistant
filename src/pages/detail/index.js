@@ -1,44 +1,56 @@
 import React, { memo, useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
-import { useSelector, shallowEqual } from "react-redux";
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { DetailWrapper } from "./style";
 import { Image, NavBar } from "antd-mobile";
 import { SpinLoading } from "antd-mobile";
+import Comment from "@/components/comment";
+import { changeGetData } from "@/store/creators";
 import {
   EnvironmentOutline,
   HeartFill,
   EyeFill,
   FireFill,
 } from "antd-mobile-icons";
-import { addViews } from "@/network/model";
+import { addViews, getArticle } from "@/network/model";
 import { isImgage } from "@/utils/common";
 export default memo(
   withRouter(function Detail(props) {
     const [item, setItem] = useState({});
+    const [width, setWidth] = useState("98%");
+    const dispatch = useDispatch();
     const { articleList } = useSelector(
       (state) => ({
         articleList: state.getIn(["main", "articleList"]),
       }),
       shallowEqual
     );
+    useEffect(() => {
+      dispatch(changeGetData(false));
+    }, [dispatch]);
 
     useEffect(() => {
       const id = props.location.search.split("=")[1];
       if (id) {
-        addViews({ article_id: id }).then((res) => {
-          console.log(res);
+        addViews({ article_id: id });
+        getArticle({ article_id: id }).then((res) => {
+          const p = res.data.result;
+          p.urls = p.urls?.split(",");
+          setItem(p);
+
+          if (p?.urls?.length === 2) {
+            setWidth("49%");
+          } else if (p?.urls?.length >= 3) {
+            setWidth("33%");
+          }
         });
       }
-      const p = articleList.find((item) => item.article_id === +id);
-      setItem(p);
-      console.log(p);
     }, [articleList, props.location.search]);
     return (
-      <DetailWrapper>
+      <DetailWrapper width={width}>
         <NavBar
           style={{ backgroundColor: "white" }}
           onBack={() => {
-            console.log("返回");
             props.history.push("/home");
           }}
         >
@@ -74,7 +86,7 @@ export default memo(
                 <div className="render-info" key={index}>
                   {isImgage(url) ? (
                     <Image
-                      height={100}
+                      height={width === "33%" ? 100 : ""}
                       fit="cover"
                       className="img"
                       src={url + "?imageView2/q/50"}
@@ -111,7 +123,7 @@ export default memo(
             </div>
           </div>
         </div>
-        <h1>信息详情</h1>
+        <Comment article_id={item.article_id}></Comment>
       </DetailWrapper>
     );
   })

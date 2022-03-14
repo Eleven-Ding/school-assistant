@@ -27,19 +27,12 @@ export default memo(function Upload({ handleChoose, list, handleDelete }) {
               <CloseOutline
                 className="close"
                 onClick={() => {
-                  console.log(index);
                   handleDelete(index);
                 }}
               />
 
               {item.type.includes("video") ? (
-                <video
-                  onClick={(e) => {
-                    console.log(e);
-                  }}
-                  controls
-                  src={URL.createObjectURL(item)}
-                />
+                <video controls src={URL.createObjectURL(item)} />
               ) : (
                 <img src={URL.createObjectURL(item)} alt="" />
               )}

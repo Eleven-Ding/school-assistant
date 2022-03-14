@@ -11,7 +11,7 @@ export default [
   {
     path: "/",
     exact: true,
-    render: () => <Redirect to="/login" />,
+    render: () => <Redirect to="/home" />,
   },
   {
     path: "/login",

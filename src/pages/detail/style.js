@@ -27,7 +27,7 @@ export const DetailWrapper = styled.div`
       justify-content: space-between;
       .render-info {
         margin-top: 5px;
-        width: 33%;
+        width: ${(props) => props.width};
         .img,
         video {
           border-radius: 4px;

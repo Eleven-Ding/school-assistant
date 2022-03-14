@@ -74,7 +74,6 @@ export default withRouter(
               currentIndex++;
               if (currentIndex === list.length) {
                 //开始上传
-                console.log(urls);
                 setShowMask(false);
                 addArtticle({
                   urls,

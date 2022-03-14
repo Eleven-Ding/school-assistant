@@ -66,3 +66,31 @@ export function addViews({ article_id }) {
     },
   });
 }
+
+export function addComment({
+  position,
+  article_id,
+  content,
+  father_id = -1,
+  level_id = -1,
+}) {
+  return request({
+    method: "post",
+    data: {
+      position,
+      article_id,
+      content,
+      father_id,
+      level_id,
+    },
+    url: "/article/add_comment",
+  });
+}
+
+export function getComment({ article_id }) {
+  return request(`/article/get_comment?article_id=${article_id}`);
+}
+
+export function getArticle({ article_id }) {
+  return request(`/article/get_article?article_id=${article_id}`);
+}
