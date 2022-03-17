@@ -7,8 +7,3 @@ export const basicColumns = [
     { label: "四川大学", value: "5" },
   ],
 ];
-
-export const COS_SECRETID = "AKIDd1JRJBnBcshJflm71WkzsVTAaliP2nAH";
-export const COS_SECRETKEY = "zdwzmJNKZZGiuhgQ3YonZ3HGfRxRfB5P";
-export const Bucket = "blog-1303885568";
-export const Region = "ap-chengdu";
