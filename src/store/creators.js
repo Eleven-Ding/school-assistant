@@ -1,6 +1,7 @@
 import {
   CHANGE_ARTICLE_LIST,
   CHANGE_COMMENT_LIST,
+  CHANGE_CONNECT,
   CHANGE_GET_DATA,
   SET_PAGE,
   SET_SCROLL_TOP,
@@ -54,5 +55,12 @@ export function changeScrollTop(scroll) {
   return {
     type: SET_SCROLL_TOP,
     payload: scroll,
+  };
+}
+
+export function changeConnect(payload) {
+  return {
+    type: CHANGE_CONNECT,
+    payload,
   };
 }

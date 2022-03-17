@@ -11,7 +11,9 @@ import {
   UserOutline,
   AddOutline,
 } from "antd-mobile-icons";
-import { changeScrollTop } from "../store/creators";
+import { changeScrollTop, changeConnect } from "../store/creators";
+import io from "socket.io-client";
+
 import { useDispatch } from "react-redux";
 const tabs = [
   {
@@ -47,14 +49,19 @@ const tabs = [
 
 export default withRouter(
   memo(function MainPage({ history, location }) {
+    const dispatch = useDispatch();
     useEffect(() => {
       const token = localStorage.getItem("token");
-      console.log(location);
+      if (token) {
+        // 进行链接
+        const socket = io("ws://localhost:3001");
+        socket.emit("user_connect", token);
+        dispatch(changeConnect(socket));
+      }
       if (!token && location.pathname !== "/login") {
         history.push("/login");
       }
-    }, [history, location]);
-    const dispatch = useDispatch();
+    }, [dispatch, history, location]);
     useEffect(() => {
       window.addEventListener("scroll", () => {
         let scrollTop = document.documentElement.scrollTop;

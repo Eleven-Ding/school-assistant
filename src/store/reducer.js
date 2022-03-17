@@ -2,6 +2,7 @@ import { combineReducers } from "redux-immutable";
 import {
   CHANGE_ARTICLE_LIST,
   CHANGE_COMMENT_LIST,
+  CHANGE_CONNECT,
   CHANGE_GET_DATA,
   SET_PAGE,
   SET_SCROLL_TOP,
@@ -16,6 +17,7 @@ const homeDefaultState = {
   commentList: [],
   shouldHomeGetData: false,
   scrollTop: 0,
+  socket: {},
 };
 
 function reducer(state = homeDefaultState, action) {
@@ -37,6 +39,8 @@ function reducer(state = homeDefaultState, action) {
       return { ...state, shouldHomeGetData: action.payload };
     case SET_SCROLL_TOP:
       return { ...state, scrollTop: action.payload };
+    case CHANGE_CONNECT:
+      return { ...state, connect: action.payload };
     default:
       return state;
   }
