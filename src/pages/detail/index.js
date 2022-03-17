@@ -12,6 +12,7 @@ import {
   EyeFill,
   FireFill,
 } from "antd-mobile-icons";
+import { changeAimUser } from "@/store/creators";
 import { addViews, getArticle } from "@/network/model";
 import { isImgage } from "@/utils/common";
 export default memo(
@@ -59,7 +60,17 @@ export default memo(
         <div className="detail-info">
           <div className="user-info">
             <div style={{ display: "flex", alignItems: "center" }}>
-              <img src={item.avator} alt="" />
+              <img
+                src={item.avator}
+                onClick={() => {
+                  if (item.userId !== +localStorage.getItem("userId")) {
+                    const { avator, userId, username } = item;
+                    dispatch(changeAimUser({ id: userId, username, avator }));
+                    props.history.push("/chat");
+                  }
+                }}
+                alt=""
+              />
               <div>
                 <div
                   style={{

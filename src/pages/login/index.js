@@ -19,11 +19,12 @@ export default memo(
         const {
           status,
           message,
-          data: { token },
+          data: { token, userId },
         } = await userLogin({ ...values });
         showmsg = message;
         if (status === 200) {
           localStorage.setItem("token", token);
+          localStorage.setItem("userId", userId);
           history.push("/home");
         }
       } else {

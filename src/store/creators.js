@@ -1,4 +1,5 @@
 import {
+  CHANGE_AIM_USER,
   CHANGE_ARTICLE_LIST,
   CHANGE_COMMENT_LIST,
   CHANGE_CONNECT,
@@ -62,5 +63,12 @@ export function changeConnect(payload) {
   return {
     type: CHANGE_CONNECT,
     payload,
+  };
+}
+
+export function changeAimUser(userInfo) {
+  return {
+    type: CHANGE_AIM_USER,
+    payload: userInfo,
   };
 }

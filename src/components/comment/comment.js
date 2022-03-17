@@ -1,12 +1,22 @@
-import Item from "antd-mobile/es/components/dropdown/item";
 import React, { memo } from "react";
 import { withRouter } from "react-router-dom";
-
+import { changeAimUser } from "@/store/creators";
+import { useDispatch } from "react-redux";
 export default memo(
-  withRouter(function CommentItem({ comment, handleReplay }) {
+  withRouter(function CommentItem({ comment, handleReplay, history }) {
+    const dispatch = useDispatch();
     return (
       <div className="comment-container">
-        <img src={comment.userInfo.avator} alt=""></img>
+        <img
+          src={comment.userInfo.avator}
+          onClick={() => {
+            if (comment.userInfo.id !== +localStorage.getItem("userId")) {
+              dispatch(changeAimUser(comment.userInfo));
+              history.push("/chat");
+            }
+          }}
+          alt=""
+        ></img>
         <div className="info-right">
           <div className="container">
             <span className="username">{comment.userInfo.username}</span>

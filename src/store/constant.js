@@ -13,3 +13,5 @@ export const CHANGE_GET_DATA = "CHANGE_GET_DATA";
 export const SET_SCROLL_TOP = "SET_SCROLL_TOP";
 
 export const CHANGE_CONNECT = "CHANGE_CONNECT";
+
+export const CHANGE_AIM_USER = "CHANGE_AIM_USER";

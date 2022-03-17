@@ -1,5 +1,6 @@
 import { combineReducers } from "redux-immutable";
 import {
+  CHANGE_AIM_USER,
   CHANGE_ARTICLE_LIST,
   CHANGE_COMMENT_LIST,
   CHANGE_CONNECT,
@@ -18,6 +19,8 @@ const homeDefaultState = {
   shouldHomeGetData: false,
   scrollTop: 0,
   socket: {},
+  // 在评论区点击头像 到聊天界面的时候才会有的
+  aimUser: null,
 };
 
 function reducer(state = homeDefaultState, action) {
@@ -40,7 +43,9 @@ function reducer(state = homeDefaultState, action) {
     case SET_SCROLL_TOP:
       return { ...state, scrollTop: action.payload };
     case CHANGE_CONNECT:
-      return { ...state, connect: action.payload };
+      return { ...state, socket: action.payload };
+    case CHANGE_AIM_USER:
+      return { ...state, aimUser: action.payload };
     default:
       return state;
   }

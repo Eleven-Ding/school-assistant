@@ -20,7 +20,6 @@ const tabs = [
     key: "/home",
     title: "首页",
     icon: <AppOutline />,
-    badge: Badge.dot,
   },
   {
     key: "/todo",
@@ -52,15 +51,18 @@ export default withRouter(
     const dispatch = useDispatch();
     useEffect(() => {
       const token = localStorage.getItem("token");
-      if (token) {
-        // 进行链接
+      if (token && !sessionStorage.getItem("login")) {
         const socket = io("ws://localhost:3001");
         socket.emit("user_connect", token);
+        sessionStorage.setItem("login", true);
         dispatch(changeConnect(socket));
       }
       if (!token && location.pathname !== "/login") {
         history.push("/login");
       }
+      window.addEventListener("beforeunload", () => {
+        sessionStorage.removeItem("login", false);
+      });
     }, [dispatch, history, location]);
     useEffect(() => {
       window.addEventListener("scroll", () => {
@@ -82,7 +84,8 @@ export default withRouter(
         >
           {history.location.pathname !== "/" &&
             history.location.pathname !== "/login" &&
-            history.location.pathname !== "/detail" && (
+            history.location.pathname !== "/detail" &&
+            history.location.pathname !== "/chat" && (
               <TabBar
                 onChange={(key) => {
                   history.push(key);
