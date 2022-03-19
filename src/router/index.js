@@ -8,6 +8,7 @@ const Message = React.lazy((_) => import("@/pages/message/index.js"));
 const Add = React.lazy((_) => import("@/pages/add/index.js"));
 const Detail = React.lazy((_) => import("@/pages/detail/index.js"));
 const Chat = React.lazy((_) => import("@/pages/chat/index.js"));
+const Setting = React.lazy((_) => import("@/pages/setting/index.js"));
 export default [
   {
     path: "/",
@@ -45,5 +46,9 @@ export default [
   {
     path: "/chat",
     component: Chat,
+  },
+  {
+    path: "/setting",
+    component: Setting,
   },
 ];

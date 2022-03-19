@@ -60,8 +60,11 @@ export default memo(
         <div className="detail-info">
           <div className="user-info">
             <div style={{ display: "flex", alignItems: "center" }}>
-              <img
+              <Image
                 src={item.avator}
+                width={45}
+                height={45}
+                style={{ borderRadius: "50%" }}
                 onClick={() => {
                   if (item.userId !== +localStorage.getItem("userId")) {
                     const { avator, userId, username } = item;

@@ -16,8 +16,8 @@ export const DetailWrapper = styled.div`
       justify-content: space-between;
 
       img {
-        width: 45px;
-        heigth: 45px;
+        max-width: 45px;
+        min-heigth: 45px;
         border-radius: 50%;
       }
     }

@@ -15,18 +15,25 @@ import { changeScrollTop, changeConnect } from "../store/creators";
 import io from "socket.io-client";
 import { getAllMessages } from "../network/model";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { changeMessage } from "../store/creators";
-
+import { changeMessage, changeUserInfo } from "../store/creators";
+import { getUserInfo } from "../network/model";
 export default withRouter(
   memo(function MainPage({ history, location }) {
     const dispatch = useDispatch();
-    const { socket, messages } = useSelector(
+    const { socket, messages, userInfo } = useSelector(
       (state) => ({
         socket: state.getIn(["main", "socket"]),
         messages: state.getIn(["main", "messages"]),
+        userInfo: state.getIn(["main", "userInfo"]),
       }),
       shallowEqual
     );
+    useEffect(() => {
+      if (!userInfo.username)
+        getUserInfo().then((res) => {
+          dispatch(changeUserInfo(res.data.userInfo));
+        });
+    }, [dispatch, userInfo.username]);
     function getCount() {
       let count = 0;
       messages.forEach((item) => {

@@ -25,6 +25,18 @@ export function sendMail({ email }) {
   });
 }
 
+export function updateUser(avator, username, email) {
+  return request({
+    method: "post",
+    url: "/user/update_user",
+    data: {
+      avator,
+      username,
+      email,
+    },
+  });
+}
+
 export function userLogin({ username, password }) {
   return request({
     method: "post",
