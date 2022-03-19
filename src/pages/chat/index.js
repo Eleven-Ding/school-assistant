@@ -46,7 +46,7 @@ export default memo(function Chat() {
         const arr = res.data.messageMap;
         dispatch(changeMessage(arr));
       });
-      updateMessages(aimUser.id);
+      aimUser && updateMessages(aimUser.id);
     }, 100);
   }
   useEffect(() => {
@@ -60,7 +60,7 @@ export default memo(function Chat() {
     setTimeout(() => {
       window.scrollTo(0, messageRef.current?.scrollHeight || 0, 0);
     }, 10);
-    updateMessages(aimUser.id);
+    aimUser && updateMessages(aimUser.id);
   }, [aimUser, messageRef, messages]);
   return (
     <ChatWrapper>

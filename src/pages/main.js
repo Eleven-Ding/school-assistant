@@ -16,7 +16,6 @@ import io from "socket.io-client";
 import { getAllMessages } from "../network/model";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { changeMessage } from "../store/creators";
-import { updateMessages } from "../network/model";
 
 export default withRouter(
   memo(function MainPage({ history, location }) {
