@@ -1,5 +1,6 @@
 import {
   CHANGE_AIM_USER,
+  CHANGE_ALL_MESSAGES,
   CHANGE_ARTICLE_LIST,
   CHANGE_COMMENT_LIST,
   CHANGE_CONNECT,
@@ -70,5 +71,12 @@ export function changeAimUser(userInfo) {
   return {
     type: CHANGE_AIM_USER,
     payload: userInfo,
+  };
+}
+
+export function changeMessage(messages) {
+  return {
+    type: CHANGE_ALL_MESSAGES,
+    payload: messages,
   };
 }

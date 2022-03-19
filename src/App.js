@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import store from "./store";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import "./App.css";
 import "../src/normalize.css";
@@ -10,9 +10,9 @@ function App() {
   return (
     <Provider store={store}>
       <Suspense fallback={""}>
-        <BrowserRouter>
+        <HashRouter>
           <MainPage></MainPage>
-        </BrowserRouter>
+        </HashRouter>
       </Suspense>
     </Provider>
   );

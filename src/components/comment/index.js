@@ -104,7 +104,7 @@ export default memo(
                   <div
                     style={{
                       transform: "translateX(50px)",
-                      backgroundColor: "rgb(233 233 233)",
+                      backgroundColor: "rgb(242 241 241)",
                       width: "calc(100% - 50px)",
                       padding: "5px",
                     }}

@@ -94,3 +94,17 @@ export function getComment({ article_id }) {
 export function getArticle({ article_id }) {
   return request(`/article/get_article?article_id=${article_id}`);
 }
+
+export function getAllMessages() {
+  return request(`/message/get_all_messages`);
+}
+
+export function updateMessages(userId) {
+  return request({
+    method: "post",
+    data: {
+      userId,
+    },
+    url: "/message/update_message",
+  });
+}

@@ -8,4 +8,5 @@ Axios.get("https://www.dingshiyi.top:9002/user/get_position").then((res) => {
   const local = `${position.province}-${position.city}`;
   localStorage.setItem("location", local);
 });
+
 ReactDOM.render(<App />, document.getElementById("root"));

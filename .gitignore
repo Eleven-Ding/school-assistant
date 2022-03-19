@@ -1,3 +1,5 @@
 node_modules
 constant.js
 *constant/
+build
+src/constant.js

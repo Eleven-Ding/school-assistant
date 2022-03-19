@@ -13,49 +13,86 @@ import {
 } from "antd-mobile-icons";
 import { changeScrollTop, changeConnect } from "../store/creators";
 import io from "socket.io-client";
-
-import { useDispatch } from "react-redux";
-const tabs = [
-  {
-    key: "/home",
-    title: "首页",
-    icon: <AppOutline />,
-  },
-  {
-    key: "/todo",
-    title: "我的待办",
-    icon: <UnorderedListOutline />,
-    badge: "5",
-  },
-  {
-    key: "/add",
-    title: "发帖",
-    icon: <AddOutline />,
-  },
-
-  {
-    key: "/message",
-    title: "我的消息",
-    icon: (active) => (active ? <MessageFill /> : <MessageOutline />),
-    badge: "99+",
-  },
-  {
-    key: "/profile",
-    title: "个人中心",
-    icon: <UserOutline />,
-  },
-];
+import { getAllMessages } from "../network/model";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { changeMessage } from "../store/creators";
+import { updateMessages } from "../network/model";
 
 export default withRouter(
   memo(function MainPage({ history, location }) {
     const dispatch = useDispatch();
+    const { socket, messages } = useSelector(
+      (state) => ({
+        socket: state.getIn(["main", "socket"]),
+        messages: state.getIn(["main", "messages"]),
+      }),
+      shallowEqual
+    );
+    function getCount() {
+      let count = 0;
+      messages.forEach((item) => {
+        count += item.arr.filter((message) => {
+          return (
+            message.from_id !== +localStorage.getItem("userId") &&
+            !message.isRead
+          );
+        }).length;
+      });
+      return count;
+    }
+    const tabs = [
+      {
+        key: "/home",
+        title: "首页",
+        icon: <AppOutline />,
+      },
+      {
+        key: "/todo",
+        title: "我的待办",
+        icon: <UnorderedListOutline />,
+        badge: "5",
+      },
+      {
+        key: "/add",
+        title: "发帖",
+        icon: <AddOutline />,
+      },
+
+      {
+        key: "/message",
+        title: "我的消息",
+        icon: (active) => (active ? <MessageFill /> : <MessageOutline />),
+        badge: getCount(),
+      },
+      {
+        key: "/profile",
+        title: "个人中心",
+        icon: <UserOutline />,
+      },
+    ];
+
     useEffect(() => {
       const token = localStorage.getItem("token");
       if (token && !sessionStorage.getItem("login")) {
-        const socket = io("ws://localhost:3001");
-        socket.emit("user_connect", token);
-        sessionStorage.setItem("login", true);
-        dispatch(changeConnect(socket));
+        const socket = io("ws://www.dingshiyi.top:9006");
+        //收到server的连接确认
+        socket.on("open", () => {
+          console.log("连上了");
+          console.log(socket);
+          socket.emit("user_connect", token);
+          sessionStorage.setItem("login", true);
+          dispatch(changeConnect(socket));
+          getAllMessages().then((res) => {
+            const arr = res.data.messageMap;
+            dispatch(changeMessage(arr));
+          });
+          socket.on("getMessage", () => {
+            getAllMessages().then((res) => {
+              const arr = res.data.messageMap;
+              dispatch(changeMessage(arr));
+            });
+          });
+        });
       }
       if (!token && location.pathname !== "/login") {
         history.push("/login");
@@ -70,6 +107,10 @@ export default withRouter(
         dispatch(changeScrollTop(scrollTop));
       });
     }, [dispatch]);
+
+    useEffect(() => {
+      if (socket) return;
+    }, [dispatch, socket]);
     return (
       <>
         {renderRoutes(router)}
