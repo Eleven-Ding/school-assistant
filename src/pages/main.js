@@ -15,7 +15,7 @@ import { changeScrollTop, changeConnect } from "../store/creators";
 import io from "socket.io-client";
 import { getAllMessages } from "../network/model";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { changeMessage, changeUserInfo } from "../store/creators";
+import { changeMessage, changeUserInfo, changeExtra } from "../store/creators";
 import { getUserInfo } from "../network/model";
 export default withRouter(
   memo(function MainPage({ history, location }) {
@@ -29,11 +29,14 @@ export default withRouter(
       shallowEqual
     );
     useEffect(() => {
-      if (!userInfo.username)
-        getUserInfo().then((res) => {
-          dispatch(changeUserInfo(res.data.userInfo));
-        });
-    }, [dispatch, userInfo.username]);
+      // const token = localStorage.getItem("token");
+      // if (!token) return;
+      // getUserInfo().then((res) => {
+      //   const { userInfo, articles, browsers, follow, befollow } = res.data;
+      //   dispatch(changeUserInfo(userInfo));
+      //   dispatch(changeExtra({ browsers, articles, follow, befollow }));
+      // });
+    }, [dispatch]);
     function getCount() {
       let count = 0;
       messages.forEach((item) => {
@@ -83,8 +86,8 @@ export default withRouter(
         const socket = io("ws://www.dingshiyi.top:9006");
         //收到server的连接确认
         socket.on("open", () => {
-          console.log("连上了");
-          console.log(socket);
+          // console.log("连上了");
+          // console.log(socket);
           socket.emit("user_connect", token);
           sessionStorage.setItem("login", true);
           dispatch(changeConnect(socket));

@@ -9,6 +9,9 @@ const Add = React.lazy((_) => import("@/pages/add/index.js"));
 const Detail = React.lazy((_) => import("@/pages/detail/index.js"));
 const Chat = React.lazy((_) => import("@/pages/chat/index.js"));
 const Setting = React.lazy((_) => import("@/pages/setting/index.js"));
+const OtherProfile = React.lazy((_) => import("@/pages/otherProfile/index.js"));
+const Browser = React.lazy((_) => import("@/pages/browser/index.js"));
+const Follow = React.lazy((_) => import("@/pages/follow/index.js"));
 export default [
   {
     path: "/",
@@ -50,5 +53,17 @@ export default [
   {
     path: "/setting",
     component: Setting,
+  },
+  {
+    path: "/other",
+    component: OtherProfile,
+  },
+  {
+    path: "/browser",
+    component: Browser,
+  },
+  {
+    path: "/follow",
+    component: Follow,
   },
 ];

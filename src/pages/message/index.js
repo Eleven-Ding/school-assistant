@@ -51,7 +51,6 @@ export default memo(
               <div
                 className="message-item"
                 onClick={() => {
-                  console.log(item);
                   dispatch(changeAimUser(item.toUserInfo));
                   history.push("/chat");
                   const userId = +item.id;

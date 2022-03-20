@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
-export const ProfileWrapper = styled.div`
-  padding-top: 60px;
+export const BrowerWraper = styled.div`
   padding-bottom: 70px;
   .profile-container {
     background-color: white;

@@ -5,7 +5,9 @@ import {
   CHANGE_ARTICLE_LIST,
   CHANGE_COMMENT_LIST,
   CHANGE_CONNECT,
+  CHANGE_EXTRA,
   CHANGE_GET_DATA,
+  CHANGE_OTHER_USER_INFO,
   SET_PAGE,
   SET_SCROLL_TOP,
   SHOW_MASK,
@@ -14,6 +16,7 @@ import {
 const homeDefaultState = {
   showMask: false,
   userInfo: {},
+  otherUserInfo: {},
   articleList: [],
   page: 1,
   commentList: [],
@@ -23,6 +26,7 @@ const homeDefaultState = {
   // 在评论区点击头像 到聊天界面的时候才会有的
   aimUser: null,
   messages: [],
+  extraInfo: {},
 };
 
 function reducer(state = homeDefaultState, action) {
@@ -50,6 +54,10 @@ function reducer(state = homeDefaultState, action) {
       return { ...state, aimUser: action.payload };
     case CHANGE_ALL_MESSAGES:
       return { ...state, messages: action.payload };
+    case CHANGE_OTHER_USER_INFO:
+      return { ...state, otherUserInfo: action.payload };
+    case CHANGE_EXTRA:
+      return { ...state, extraInfo: action.payload };
     default:
       return state;
   }

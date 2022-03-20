@@ -12,7 +12,7 @@ export default memo(
           onClick={() => {
             if (comment.userInfo.id !== +localStorage.getItem("userId")) {
               dispatch(changeAimUser(comment.userInfo));
-              history.push("/chat");
+              history.push("/other");
             }
           }}
           alt=""

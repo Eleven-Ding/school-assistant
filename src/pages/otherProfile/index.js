@@ -1,103 +1,99 @@
 import React, { memo, useEffect } from "react";
 import { ProfileWrapper } from "./style";
-import { SetOutline } from "antd-mobile-icons";
-import { NavBar, Space, Image } from "antd-mobile";
+import { SetOutline, MailFill } from "antd-mobile-icons";
+import {
+  NavBar,
+  Space,
+  Popup,
+  Image,
+  Divider,
+  SpinLoading,
+  Toast,
+} from "antd-mobile";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { getUserInfo } from "../../network/model";
-import { SpinLoading } from "antd-mobile";
-import { Divider } from "antd-mobile";
-import { changeExtra, changeUserInfo } from "../../store/creators";
-
+import { getUserInfoById, addFollow } from "../../network/model";
+import { changeOtherUserInfo, changeExtra } from "../../store/creators";
 export default memo(
   withRouter(function ProfilePage({ history }) {
-    const { userInfo, extraInfo } = useSelector(
+    const dispatch = useDispatch();
+    const { userInfo, aimUser, extraInfo } = useSelector(
       (state) => ({
-        userInfo: state.getIn(["main", "userInfo"]),
+        userInfo: state.getIn(["main", "otherUserInfo"]),
+        aimUser: state.getIn(["main", "aimUser"]),
         extraInfo: state.getIn(["main", "extraInfo"]),
       }),
       shallowEqual
     );
-    const dispatch = useDispatch();
-    useEffect(() => {
-      getUserInfo().then((res) => {
-        if (!res) return;
-        const { userInfo, articles, browsers, follow, befollow } = res.data;
-        dispatch(changeUserInfo(userInfo));
-        dispatch(changeExtra({ browsers, articles, follow, befollow }));
-      });
-      window.scrollTo(0, 0);
-    }, [dispatch]);
 
+    useEffect(() => {
+      if (!aimUser) {
+        return history.push("/home");
+      }
+      getUserInfoById(aimUser.id).then((res) => {
+        const { userInfo, articles, browsers, follow, befollow } = res.data;
+        dispatch(changeExtra({ browsers, articles, follow, befollow }));
+        dispatch(changeOtherUserInfo(userInfo));
+      });
+    }, [aimUser, dispatch, history]);
     return (
       <ProfileWrapper>
         <NavBar
-          style={{
-            backgroundColor: "white",
-            position: "fixed",
-            left: "0",
-            right: "0",
-            top: "0",
+          style={{ backgroundColor: "white" }}
+          onBack={() => {
+            history.goBack();
           }}
-          back={null}
           right={
-            <div
-              style={{ fontSize: 24 }}
+            <MailFill
               onClick={() => {
-                history.push("/setting");
+                history.push("/chat");
               }}
-            >
-              <Space style={{ "--gap": "16px" }}>
-                <SetOutline />
-              </Space>
-            </div>
+              style={{ fontSize: "18px" }}
+            />
           }
         >
-          个人信息
+          {userInfo.username}
         </NavBar>
         <div className="profile-container">
-          <Image lazy src={userInfo.avator} alt=""></Image>
+          <img src={userInfo.avator} alt=""></img>
           <span className="username">{userInfo.username}</span>
           <span className="school">{userInfo.school_name}</span>
           <div className="user-operation">
-            <div
-              className="op-item"
-              onClick={() => {
-                history.push(`/follow?type=1`);
-              }}
-            >
-              <span>{extraInfo?.befollow?.length || 0}</span>
+            <div className="op-item">
+              <span>{extraInfo?.befollow?.length}</span>
               <span>被关注</span>
             </div>
-            <div
-              className="op-item"
-              onClick={() => {
-                history.push(`/follow?type=0`);
-              }}
-            >
-              <span>{extraInfo?.follow?.length || 0}</span>
+            <div className="op-item">
+              <span>{extraInfo?.follow?.length}</span>
               <span>关注</span>
             </div>
-            <div
-              className="op-item"
-              onClick={() => {
-                history.push("/browser");
-              }}
-            >
-              <span>{extraInfo?.browsers?.length || 0}</span>
+            <div className="op-item">
+              <span>{extraInfo?.browsers?.length}</span>
               <span>浏览历史</span>
             </div>
           </div>
+          <div
+            className="follow"
+            onClick={() => {
+              addFollow(aimUser.id).then((res) => {
+                Toast.show({
+                  content: res.message,
+                });
+              });
+            }}
+          >
+            Following
+          </div>
         </div>
-        <Divider>我的帖子</Divider>
+        <Divider style={{ padding: "10px 0" }}>他/她的帖子</Divider>
         <div style={{ backgroundColor: "rgb(243 243 243)" }}>
           {extraInfo?.articles?.map((article) => {
             const url = article.urls.split(",").shift();
             const isVideo = url.includes("mp4");
             return (
               <div
-                key={article.article_id}
                 className="article"
+                key={article.article_id}
                 onClick={() => {
                   history.push(`/detail?id=${article.article_id}`);
                 }}

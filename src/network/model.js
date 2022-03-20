@@ -52,6 +52,10 @@ export function getUserInfo() {
   return request(`/user/getUserInfo`);
 }
 
+export function getUserInfoById(id) {
+  return request(`/user/getOtherInfo?id=${id}`);
+}
+
 export function addArtticle({ content, urls, tag, position }) {
   return request({
     method: "post",
@@ -118,5 +122,25 @@ export function updateMessages(userId) {
       userId,
     },
     url: "/message/update_message",
+  });
+}
+
+export function addBrowser(article_id) {
+  return request({
+    method: "post",
+    data: {
+      article_id,
+    },
+    url: "/article/add_browser",
+  });
+}
+
+export function addFollow(userId) {
+  return request({
+    method: "post",
+    data: {
+      userId,
+    },
+    url: "/user/add_follow",
   });
 }

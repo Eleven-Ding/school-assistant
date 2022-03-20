@@ -6,14 +6,9 @@ import { Image, NavBar } from "antd-mobile";
 import { SpinLoading } from "antd-mobile";
 import Comment from "@/components/comment";
 import { changeGetData } from "@/store/creators";
-import {
-  EnvironmentOutline,
-  HeartFill,
-  EyeFill,
-  FireFill,
-} from "antd-mobile-icons";
+import { EnvironmentOutline, FireFill } from "antd-mobile-icons";
 import { changeAimUser } from "@/store/creators";
-import { addViews, getArticle } from "@/network/model";
+import { addViews, getArticle, addBrowser } from "@/network/model";
 import { isImgage } from "@/utils/common";
 export default memo(
   withRouter(function Detail(props) {
@@ -32,8 +27,10 @@ export default memo(
 
     useEffect(() => {
       const id = props.location.search.split("=")[1];
+
       if (id) {
         addViews({ article_id: id });
+        addBrowser(id).then((res) => {});
         getArticle({ article_id: id }).then((res) => {
           const p = res.data.result;
           p.urls = p.urls?.split(",");
@@ -52,7 +49,7 @@ export default memo(
         <NavBar
           style={{ backgroundColor: "white" }}
           onBack={() => {
-            props.history.push("/home");
+            props.history.goBack();
           }}
         >
           详情
@@ -69,7 +66,7 @@ export default memo(
                   if (item.userId !== +localStorage.getItem("userId")) {
                     const { avator, userId, username } = item;
                     dispatch(changeAimUser({ id: userId, username, avator }));
-                    props.history.push("/chat");
+                    props.history.push("/other");
                   }
                 }}
                 alt=""

@@ -71,6 +71,7 @@ export default memo(function Chat() {
           left: "0",
           right: "0",
           top: "0",
+          zIndex: 999,
         }}
         onBack={() => {
           history.goBack();
@@ -89,10 +90,13 @@ export default memo(function Chat() {
               ].join(" ")}
             >
               <Image
+                onClick={() => {
+                  history.push("/other");
+                }}
                 style={{ borderRadius: "25px" }}
                 src={item.formUser.avator}
-                width={50}
-                height={50}
+                width={40}
+                height={40}
               ></Image>
               <div className="content">{item.message}</div>
             </div>

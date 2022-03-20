@@ -42,6 +42,9 @@ export default memo(
     const send = useCallback(async () => {
       const email = formRef.current?.getFieldValue("email");
       const result = await sendMail({ email });
+      Toast.show({
+        content: "发送成功，请耐心等待",
+      });
     }, [formRef]);
     return (
       <LoginWrapper>
@@ -125,7 +128,7 @@ export default memo(
                   name="email"
                   rules={[{ required: true }]}
                 >
-                  <Input placeholder="请输入密码" clearable />
+                  <Input placeholder="请输入邮箱@qq.com" clearable />
                 </Form.Item>
                 <Form.Item
                   rules={[{ required: true }]}

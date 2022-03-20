@@ -4,7 +4,9 @@ import {
   CHANGE_ARTICLE_LIST,
   CHANGE_COMMENT_LIST,
   CHANGE_CONNECT,
+  CHANGE_EXTRA,
   CHANGE_GET_DATA,
+  CHANGE_OTHER_USER_INFO,
   SET_PAGE,
   SET_SCROLL_TOP,
   SHOW_MASK,
@@ -78,5 +80,19 @@ export function changeMessage(messages) {
   return {
     type: CHANGE_ALL_MESSAGES,
     payload: messages,
+  };
+}
+
+export function changeOtherUserInfo(userInfo) {
+  return {
+    type: CHANGE_OTHER_USER_INFO,
+    payload: userInfo,
+  };
+}
+
+export function changeExtra(data) {
+  return {
+    type: CHANGE_EXTRA,
+    payload: data,
   };
 }

@@ -49,6 +49,7 @@ export default memo(
     return (
       <SettingWrapper>
         <NavBar
+          className="test"
           style={{ backgroundColor: "white" }}
           onBack={() => {
             history.goBack();
@@ -61,7 +62,6 @@ export default memo(
                 if (edit) {
                   updateUser(avator, username, email).then((res) => {
                     const token = res.data.token;
-                    console.log(res);
                     localStorage.setItem("token", token);
                     if (res.status === 200) {
                       Toast.show({
