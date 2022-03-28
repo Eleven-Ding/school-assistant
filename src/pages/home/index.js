@@ -12,6 +12,12 @@ import {
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { withRouter } from "react-router-dom";
 const limit = 6;
+const srcs = [
+  "https://blog-1303885568.cos.ap-chengdu.myqcloud.com/img/DSY-1648466276474.webp",
+  "https://blog-1303885568.cos.ap-chengdu.myqcloud.com/img/DSY-1648466344936.webp",
+  "https://blog-1303885568.cos.ap-chengdu.myqcloud.com/img/DSY-1648466358300.webp",
+  "https://blog-1303885568.cos.ap-chengdu.myqcloud.com/img/DSY-1648466382801.webp",
+];
 export default memo(
   withRouter(function HomePage({ history }) {
     const colors = ["#ace0ff", "#bcffbd", "#e4fabd", "#ffcfac"];
@@ -48,9 +54,12 @@ export default memo(
       });
       setColumes([...arr]);
     }, [articleList]);
-    const items = colors.map((color, index) => (
+
+    const items = srcs.map((src, index) => (
       <Swiper.Item key={index}>
-        <div style={{ background: color, height: "200px" }}>{index + 1}</div>
+        <div style={{ height: "200px" }}>
+          <Image fit="cover" src={src}></Image>
+        </div>
       </Swiper.Item>
     ));
     // eslint-disable-next-line react-hooks/exhaustive-deps

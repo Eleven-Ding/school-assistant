@@ -50,4 +50,7 @@ export const HomeWrapper = styled.div`
       }
     }
   }
+  .adm-image {
+    height: 100%;
+  }
 `;

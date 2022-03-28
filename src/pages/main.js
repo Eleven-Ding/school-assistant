@@ -39,6 +39,7 @@ export default withRouter(
     }, [dispatch]);
     function getCount() {
       let count = 0;
+      if (!messages) return 0;
       messages.forEach((item) => {
         count += item.arr.filter((message) => {
           return (
@@ -55,12 +56,7 @@ export default withRouter(
         title: "首页",
         icon: <AppOutline />,
       },
-      {
-        key: "/todo",
-        title: "我的待办",
-        icon: <UnorderedListOutline />,
-        badge: "5",
-      },
+
       {
         key: "/add",
         title: "发帖",
@@ -92,7 +88,7 @@ export default withRouter(
           sessionStorage.setItem("login", true);
           dispatch(changeConnect(socket));
           getAllMessages().then((res) => {
-            const arr = res.data.messageMap;
+            const arr = res.data?.messageMap;
             dispatch(changeMessage(arr));
           });
           socket.on("getMessage", () => {

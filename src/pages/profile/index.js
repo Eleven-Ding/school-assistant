@@ -1,6 +1,6 @@
 import React, { memo, useEffect } from "react";
 import { ProfileWrapper } from "./style";
-import { SetOutline } from "antd-mobile-icons";
+import { SetOutline, DeleteOutline } from "antd-mobile-icons";
 import { NavBar, Space, Image } from "antd-mobile";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";

@@ -135,6 +135,16 @@ export function addBrowser(article_id) {
   });
 }
 
+export function deleteArticle(article_id) {
+  return request({
+    method: "post",
+    data: {
+      article_id,
+    },
+    url: "/article/delete_article",
+  });
+}
+
 export function addFollow(userId) {
   return request({
     method: "post",

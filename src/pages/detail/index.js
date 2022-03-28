@@ -2,14 +2,25 @@ import React, { memo, useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { DetailWrapper } from "./style";
-import { Image, NavBar } from "antd-mobile";
+import { Image, NavBar, Dialog, Toast } from "antd-mobile";
 import { SpinLoading } from "antd-mobile";
 import Comment from "@/components/comment";
 import { changeGetData } from "@/store/creators";
-import { EnvironmentOutline, FireFill } from "antd-mobile-icons";
+import {
+  EnvironmentOutline,
+  FireFill,
+  DeleteOutline,
+  MoreOutline,
+} from "antd-mobile-icons";
 import { changeAimUser } from "@/store/creators";
-import { addViews, getArticle, addBrowser } from "@/network/model";
+import {
+  addViews,
+  getArticle,
+  addBrowser,
+  deleteArticle,
+} from "@/network/model";
 import { isImgage } from "@/utils/common";
+import res from "antd-mobile-icons/es/AaOutline";
 export default memo(
   withRouter(function Detail(props) {
     const [item, setItem] = useState({});
@@ -51,6 +62,24 @@ export default memo(
           onBack={() => {
             props.history.goBack();
           }}
+          right={
+            <DeleteOutline
+              onClick={() => {
+                Dialog.confirm({
+                  content: "确认删除该文章？",
+                  onConfirm: async () => {
+                    const result = await deleteArticle(item.article_id);
+                    Toast.show({
+                      icon: result.status !== 200 ? "fail" : "success",
+                      content: result.message,
+                    });
+                    props.history.push("/home");
+                  },
+                });
+                console.log("删除", item);
+              }}
+            />
+          }
         >
           详情
         </NavBar>
