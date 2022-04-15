@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 const Login = React.lazy((_) => import("@/pages/login/index.js"));
 const Home = React.lazy((_) => import("@/pages/home/index.js"));
 const Profile = React.lazy((_) => import("@/pages/profile/index.js"));
-const TodoPage = React.lazy((_) => import("@/pages/todoList/index.js"));
+const TodoPage = React.lazy((_) => import("@/components/todoList/index.js"));
 const Message = React.lazy((_) => import("@/pages/message/index.js"));
 const Add = React.lazy((_) => import("@/pages/add/index.js"));
 const Detail = React.lazy((_) => import("@/pages/detail/index.js"));
@@ -12,6 +12,8 @@ const Setting = React.lazy((_) => import("@/pages/setting/index.js"));
 const OtherProfile = React.lazy((_) => import("@/pages/otherProfile/index.js"));
 const Browser = React.lazy((_) => import("@/pages/browser/index.js"));
 const Follow = React.lazy((_) => import("@/pages/follow/index.js"));
+const MusicPage = React.lazy((_) => import("@/components/music/index.js"));
+const Target = React.lazy((_) => import("@/components/target/index.js"));
 export default [
   {
     path: "/",
@@ -31,7 +33,7 @@ export default [
     component: Profile,
   },
   {
-    path: "/todo",
+    path: "/todoList",
     component: TodoPage,
   },
   {
@@ -65,5 +67,13 @@ export default [
   {
     path: "/follow",
     component: Follow,
+  },
+  {
+    path: "/music",
+    component: MusicPage,
+  },
+  {
+    path: "/target",
+    component: Target,
   },
 ];

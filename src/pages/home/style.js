@@ -53,4 +53,17 @@ export const HomeWrapper = styled.div`
   .adm-image {
     height: 100%;
   }
+  .other-opt {
+    margin: 10px 0;
+    background-color: #ccc;
+    display: flex;
+    flex-wrap: wrap;
+    .card-item {
+      width: 50%;
+      height: 100px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #ff5777;
+    }
+  }
 `;

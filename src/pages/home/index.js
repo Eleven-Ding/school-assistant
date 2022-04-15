@@ -1,5 +1,13 @@
 import React, { memo, useCallback, useEffect, useState } from "react";
-import { NavBar, Swiper, Ellipsis, Image, SpinLoading } from "antd-mobile";
+import {
+  NavBar,
+  Swiper,
+  Ellipsis,
+  Image,
+  SpinLoading,
+  Card,
+  Divider,
+} from "antd-mobile";
 import { getArticles } from "@/network/model";
 import { isImgage } from "@/utils/common";
 import { EnvironmentOutline, EyeOutline, FireFill } from "antd-mobile-icons";
@@ -17,6 +25,28 @@ const srcs = [
   "https://blog-1303885568.cos.ap-chengdu.myqcloud.com/img/DSY-1648466344936.webp",
   "https://blog-1303885568.cos.ap-chengdu.myqcloud.com/img/DSY-1648466358300.webp",
   "https://blog-1303885568.cos.ap-chengdu.myqcloud.com/img/DSY-1648466382801.webp",
+];
+const otherOptInfo = [
+  {
+    text: "音乐厅",
+    link: "/music",
+    img: "https://img95.699pic.com/photo/40081/7983.jpg_wh300.jpg",
+  },
+  {
+    text: "待做列表",
+    link: "/todoList",
+    img: "https://todolist.london/wp-content/uploads/2020/01/To-Do-List-Logo-for-Facebook.jpg",
+  },
+  {
+    text: "导航列表",
+    link: "/target",
+    img: "https://gw.alipayobjects.com/mdn/rms_08e378/afts/img/A*7BUOQYDiEr0AAAAAAAAAAABkARQnAQ",
+  },
+  {
+    text: "其他",
+    link: "/tother",
+    img: "https://todolist.london/wp-content/uploads/2020/01/To-Do-List-Logo-for-Facebook.jpg",
+  },
 ];
 export default memo(
   withRouter(function HomePage({ history }) {
@@ -82,9 +112,29 @@ export default memo(
         <NavBar style={{ backgroundColor: "white" }} back={null}>
           首页
         </NavBar>
+        <div className="other-opt"></div>
         <Swiper autoplay loop autoplayInterval={2000}>
           {items}
         </Swiper>
+        <Divider>更多功能</Divider>
+        <div className="other-opt">
+          {otherOptInfo.map((item, index) => {
+            return (
+              <div
+                className="card-item"
+                style={{
+                  background: `url("${item.img}")`,
+                  backgroundSize: "cover",
+                }}
+                key={index}
+                onClick={() => history.push(item.link)}
+              >
+                {item.text}
+              </div>
+            );
+          })}
+        </div>
+        <Divider>最新帖子</Divider>
         <div className="article-list">
           {columes.map((colume, index1) => {
             return (
