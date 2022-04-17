@@ -60,7 +60,7 @@ export default memo(
         <NavBar
           style={{ backgroundColor: "white" }}
           onBack={() => {
-            props.history.goBack();
+            props.history.push("/home");
           }}
           right={
             <DeleteOutline

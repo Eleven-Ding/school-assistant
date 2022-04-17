@@ -116,7 +116,7 @@ export default memo(
         <Swiper autoplay loop autoplayInterval={2000}>
           {items}
         </Swiper>
-        <Divider>更多功能</Divider>
+        {/* <Divider>更多功能</Divider>
         <div className="other-opt">
           {otherOptInfo.map((item, index) => {
             return (
@@ -133,7 +133,7 @@ export default memo(
               </div>
             );
           })}
-        </div>
+        </div> */}
         <Divider>最新帖子</Divider>
         <div className="article-list">
           {columes.map((colume, index1) => {

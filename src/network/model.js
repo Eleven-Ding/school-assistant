@@ -154,3 +154,28 @@ export function addFollow(userId) {
     url: "/user/add_follow",
   });
 }
+
+export function getTodoList() {
+  return request(`/user/get_todo_list`);
+}
+
+export function addTodoList({ time, content }) {
+  return request({
+    url: "/user/add_todo_list",
+    method: "post",
+    data: {
+      time,
+      content,
+    },
+  });
+}
+export function deleteTodo(id) {
+  console.log(id, 23333);
+  return request({
+    url: "/user/delete_todo",
+    method: "post",
+    data: {
+      id,
+    },
+  });
+}
