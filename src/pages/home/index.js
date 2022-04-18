@@ -5,17 +5,16 @@ import {
   Ellipsis,
   Image,
   SpinLoading,
-  Card,
   Divider,
   NoticeBar,
+  Tag,
 } from "antd-mobile";
+import { Tabs } from "antd";
 import { getArticles } from "@/network/model";
 import { isImgage } from "@/utils/common";
 import {
   EnvironmentOutline,
-  EyeOutline,
   FireFill,
-  CloseCircleOutline,
   CompassOutline,
   RightOutline,
 } from "antd-mobile-icons";
@@ -27,6 +26,8 @@ import {
 } from "@/store/creators";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { withRouter } from "react-router-dom";
+import { column as Tags } from "../add";
+const { TabPane } = Tabs;
 const limit = 6;
 const srcs = [
   "https://blog-1303885568.cos.ap-chengdu.myqcloud.com/img/DSY-1648466276474.webp",
@@ -34,32 +35,13 @@ const srcs = [
   "https://blog-1303885568.cos.ap-chengdu.myqcloud.com/img/DSY-1648466358300.webp",
   "https://blog-1303885568.cos.ap-chengdu.myqcloud.com/img/DSY-1648466382801.webp",
 ];
-const otherOptInfo = [
-  {
-    text: "音乐厅",
-    link: "/music",
-    img: "https://img95.699pic.com/photo/40081/7983.jpg_wh300.jpg",
-  },
-  {
-    text: "待做列表",
-    link: "/todoList",
-    img: "https://todolist.london/wp-content/uploads/2020/01/To-Do-List-Logo-for-Facebook.jpg",
-  },
-  {
-    text: "导航列表",
-    link: "/target",
-    img: "https://gw.alipayobjects.com/mdn/rms_08e378/afts/img/A*7BUOQYDiEr0AAAAAAAAAAABkARQnAQ",
-  },
-  {
-    text: "其他",
-    link: "/tother",
-    img: "https://todolist.london/wp-content/uploads/2020/01/To-Do-List-Logo-for-Facebook.jpg",
-  },
-];
+
 export default memo(
   withRouter(function HomePage({ history }) {
     const colors = ["#ace0ff", "#bcffbd", "#e4fabd", "#ffcfac"];
+    const [renderColume, setRenderColume] = useState([]);
     const [columes, setColumes] = useState([[], []]);
+
     // const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const { articleList, page, scrollTop, shouldHomeGetData } = useSelector(
@@ -71,6 +53,23 @@ export default memo(
       }),
       shallowEqual
     );
+    useEffect(() => {
+      if (!articleList.length) return;
+      let ids = [];
+      const renderlist = articleList
+        .map((article) => {
+          const { tag } = article;
+          if (!ids.includes(tag)) {
+            ids.push(tag);
+            return {
+              id: tag,
+              value: Tags.find((item) => item.value === tag)?.label,
+            };
+          }
+        })
+        .filter((item) => item);
+      setRenderColume([{ id: -1, value: "全部" }, ...renderlist]);
+    }, [articleList]);
     useEffect(() => {
       dispatch(changeGetData(true));
       getArticles({ page, limit }).then((res) => {
@@ -114,7 +113,7 @@ export default memo(
         loadMore();
       }
     }, [dispatch, loadMore, scrollTop, shouldHomeGetData]);
-
+    const [currentKey, setCurrentKey] = useState("-1");
     return (
       <HomeWrapper>
         <NavBar style={{ backgroundColor: "white" }} back={null}>
@@ -146,79 +145,101 @@ export default memo(
           }
         />
         <Divider>最新帖子</Divider>
+        <Tabs
+          defaultActiveKey="-1"
+          onChange={(e) => {
+            setCurrentKey(e);
+          }}
+        >
+          {renderColume?.map((item) => {
+            return <TabPane tab={item.value} key={item.id}></TabPane>;
+          })}
+        </Tabs>
         <div className="article-list">
           {columes.map((colume, index1) => {
             return (
               <div className="articles" key={index1}>
-                {colume.map((item, index) => {
-                  return (
-                    <div
-                      className="article-item"
-                      onClick={() => {
-                        history.push(`/detail?id=${item.article_id}`);
-                      }}
-                      key={index}
-                    >
-                      <div className="user-info">
-                        <img src={item.avator} alt="" />
-                        <div>
+                {colume
+                  .filter((p) => {
+                    if (currentKey == "-1") return p;
+                    return p.tag == currentKey;
+                  })
+                  .map((item, index) => {
+                    return (
+                      <div
+                        className="article-item"
+                        onClick={() => {
+                          history.push(`/detail?id=${item.article_id}`);
+                        }}
+                        key={index}
+                      >
+                        <div className="user-info">
+                          <img src={item.avator} alt="" />
                           <div>
-                            <span className="username">{item.username}-</span>
-                            <span className="school">{item.school_name}</span>
+                            <div>
+                              <span className="username">{item.username}-</span>
+                              <span className="school">{item.school_name}</span>
+                            </div>
+                            <span className="create-time">
+                              {item.createTime}
+                            </span>
                           </div>
-                          <span className="create-time">{item.createTime}</span>
                         </div>
-                      </div>
-                      <div className="img-container">
-                        {item.firstType === "img" ? (
-                          <Image
-                            fit="cover"
-                            className="img"
-                            src={item.urls[0] + "?imageView2/q/10"}
-                            alt=""
-                            lazy
-                            placeholder={
-                              <div
-                                style={{
-                                  minHeight: "130px",
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <SpinLoading color="primary" />
-                              </div>
-                            }
+                        <div className="img-container">
+                          {item.firstType === "img" ? (
+                            <Image
+                              fit="cover"
+                              className="img"
+                              src={item.urls[0] + "?imageView2/q/10"}
+                              alt=""
+                              lazy
+                              placeholder={
+                                <div
+                                  style={{
+                                    minHeight: "130px",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <SpinLoading color="primary" />
+                                </div>
+                              }
+                            />
+                          ) : (
+                            <video src={item.urls[0]} controls />
+                          )}
+                        </div>
+                        <div className="content">
+                          <Ellipsis
+                            content={item.content || ""}
+                            rows={5}
+                            expandText="展开"
+                            direction="end"
+                            collapseText="收起"
                           />
-                        ) : (
-                          <video src={item.urls[0]} controls />
-                        )}
-                      </div>
-                      <div className="content">
-                        <Ellipsis
-                          content={item.content || ""}
-                          rows={5}
-                          expandText="展开"
-                          direction="end"
-                          collapseText="收起"
-                        />
-                      </div>
-                      <div className="article-info">
-                        <div className="info-item">
-                          <FireFill color="red" />
-                          {item.views}
                         </div>
-                        {item.position && (
+                        <div className="article-info">
                           <div className="info-item">
-                            <EnvironmentOutline />
-                            {item.position}
+                            <FireFill color="red" />
+                            {item.views}
                           </div>
-                        )}
+                          {item.position && (
+                            <div className="info-item">
+                              <EnvironmentOutline />
+                              {item.position}
+                            </div>
+                          )}
+                        </div>
+                        <div className="info-item">
+                          <Tag color="success">
+                            {Tags.find((tag) => tag.value == item.tag).label}
+                          </Tag>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
               </div>
             );
           })}

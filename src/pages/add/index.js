@@ -17,8 +17,8 @@ import Upload from "@/components/upload/upload.js";
 import { AddWrapper } from "./style";
 import { sum } from "@/utils/common";
 import { withRouter } from "react-router-dom";
-const column = [
-  { label: "不添加标签", value: "0" },
+export const column = [
+  { label: "普通帖子", value: "0" },
   { label: "日常生活", value: "1" },
   { label: "校园趣事", value: "2" },
   { label: "失物招领", value: "3" },

@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { renderRoutes } from "react-router-config";
 import { withRouter } from "react-router-dom";
 import { TabBar, Badge } from "antd-mobile";
@@ -16,10 +16,12 @@ import io from "socket.io-client";
 import { getAllMessages } from "../network/model";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { changeMessage, changeUserInfo, changeExtra } from "../store/creators";
+import { getTodoList } from "../network/model";
 import { getUserInfo } from "../network/model";
 export default withRouter(
   memo(function MainPage({ history, location }) {
     const dispatch = useDispatch();
+    const [toDocount, setTodoCount] = useState(0);
     const { socket, messages, userInfo } = useSelector(
       (state) => ({
         socket: state.getIn(["main", "socket"]),
@@ -29,14 +31,10 @@ export default withRouter(
       shallowEqual
     );
     useEffect(() => {
-      // const token = localStorage.getItem("token");
-      // if (!token) return;
-      // getUserInfo().then((res) => {
-      //   const { userInfo, articles, browsers, follow, befollow } = res.data;
-      //   dispatch(changeUserInfo(userInfo));
-      //   dispatch(changeExtra({ browsers, articles, follow, befollow }));
-      // });
-    }, [dispatch]);
+      getTodoList().then((res) => {
+        setTodoCount(res.data.todos.length);
+      });
+    }, []);
     function getCount() {
       let count = 0;
       if (!messages) return 0;
@@ -60,7 +58,7 @@ export default withRouter(
         key: "/todoList",
         title: "我的待办",
         icon: (active) => <UnorderedListOutline />,
-        badge: getCount(),
+        badge: toDocount,
       },
       {
         key: "/add",
@@ -138,6 +136,7 @@ export default withRouter(
             history.location.pathname !== "/detail" &&
             history.location.pathname !== "/chat" && (
               <TabBar
+                safeArea
                 onChange={(key) => {
                   history.push(key);
                 }}
