@@ -4,8 +4,8 @@ export default function request(option) {
   return new Promise((resolve, reject) => {
     // 1.创建axios的实例
     const instance = Axios.create({
-      // baseURL: "http://localhost:9006/",
-      baseURL: "http://www.dingshiyi.top:9006/",
+      baseURL: "http://localhost:9006/",
+      // baseURL: "http://www.dingshiyi.top:9006/",
       timeout: 10000,
     });
     // 配置请求和响应拦截

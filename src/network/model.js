@@ -1,3 +1,4 @@
+import Axios from "axios";
 import request from "./index";
 // 用户注册
 export function userRegister({ username, password, school, email, code }) {
@@ -170,7 +171,6 @@ export function addTodoList({ time, content }) {
   });
 }
 export function deleteTodo(id) {
-  console.log(id, 23333);
   return request({
     url: "/user/delete_todo",
     method: "post",
@@ -178,4 +178,19 @@ export function deleteTodo(id) {
       id,
     },
   });
+}
+export function addTarget(url, title, tag) {
+  return request({
+    url: "/user/add_target",
+    method: "post",
+    data: {
+      url,
+      title,
+      tag,
+    },
+  });
+}
+
+export function getTarget() {
+  return request(`/user/get_target`);
 }
