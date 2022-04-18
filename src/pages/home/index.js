@@ -7,10 +7,18 @@ import {
   SpinLoading,
   Card,
   Divider,
+  NoticeBar,
 } from "antd-mobile";
 import { getArticles } from "@/network/model";
 import { isImgage } from "@/utils/common";
-import { EnvironmentOutline, EyeOutline, FireFill } from "antd-mobile-icons";
+import {
+  EnvironmentOutline,
+  EyeOutline,
+  FireFill,
+  CloseCircleOutline,
+  CompassOutline,
+  RightOutline,
+} from "antd-mobile-icons";
 import { HomeWrapper } from "./style";
 import {
   changeArticlesList,
@@ -112,28 +120,31 @@ export default memo(
         <NavBar style={{ backgroundColor: "white" }} back={null}>
           首页
         </NavBar>
+        <NoticeBar
+          content={"新功能 《导航收藏》  功能已经上线"}
+          color="alert"
+        />
         <div className="other-opt"></div>
         <Swiper autoplay loop autoplayInterval={2000}>
           {items}
         </Swiper>
-        {/* <Divider>更多功能</Divider>
-        <div className="other-opt">
-          {otherOptInfo.map((item, index) => {
-            return (
-              <div
-                className="card-item"
-                style={{
-                  background: `url("${item.img}")`,
-                  backgroundSize: "cover",
-                }}
-                key={index}
-                onClick={() => history.push(item.link)}
-              >
-                {item.text}
-              </div>
-            );
-          })}
-        </div> */}
+        <Divider>导航收藏</Divider>
+        <NoticeBar
+          style={{ "--border-color": "#a1ddff" }}
+          color="info"
+          extra={
+            <RightOutline
+              onClick={() => history.push("/target")}
+              style={{ fontSize: 18 }}
+            />
+          }
+          icon={<CompassOutline onClick={() => history.push("/target")} />}
+          content={
+            <div onClick={() => history.push("/target")}>
+              导航收藏 -------点击进入
+            </div>
+          }
+        />
         <Divider>最新帖子</Divider>
         <div className="article-list">
           {columes.map((colume, index1) => {
